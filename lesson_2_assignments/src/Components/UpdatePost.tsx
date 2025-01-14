@@ -1,32 +1,45 @@
-import { useMutation } from "@apollo/client";
+import { useMutation, useQuery } from "@apollo/client";
 import { UPDATE_POST } from "../Queries/Mutations";
+import { GET_POST } from "../Queries/Queries";
 import { useNavigate, useParams } from "react-router-dom";
 import { Form, Button, Container } from 'react-bootstrap'
-import { useRef, FormEvent } from "react";
+import { useRef, FormEvent, useEffect } from "react";
 
 const UpdatePost: React.FC = () => {
     const inputBody = useRef<HTMLTextAreaElement>(null);
     const { id } = useParams();
-    const [updatePost, { loading, error }] = useMutation(UPDATE_POST, {
+    const [updatePost, { loading: updateLoading, error: updateError }] = useMutation(UPDATE_POST, {
         variables: { id, }
     })
+    const {data, loading, error } = useQuery(GET_POST, {
+        variables: { id }
+    }) 
     const navigate = useNavigate();
+    
+    useEffect(() => {
+        if (data && data.post && inputBody.current) {
+            inputBody.current.value = data.post.body;
+        }
+    }, [data])
 
     const handleSubmit = (e: FormEvent) => {
         e.preventDefault();
         if (inputBody.current) {
             updatePost({
                 variables: {
-                    body: inputBody.current.value,
+                    id,
+                    input:  {body: inputBody.current.value },
                 },
             });
             inputBody.current.value = '';
+            console.log('Update successful!')
             navigate('/');
         }
     };
 
-    if (loading) return <p>Loading...</p>
-    if (error) return <p>Error: {error.message}</p>
+    if (loading) return <p>Loading post data...</p>
+    if (error) return <p>Error fetching post: {error.message}</p>
+    if (updateError) return <p>Error updating post: {updateError.message}</p>
 
     return (
         <Container>
@@ -41,7 +54,7 @@ const UpdatePost: React.FC = () => {
                      ref={inputBody}
                     />
                 </Form.Group>
-                <Button variant="primary" type="submit">Create Post</Button>
+                <Button variant="primary" type="submit">{updateLoading? "Updating..." : "Update Post"}</Button>
             </Form>
         </Container>
     )

@@ -2,7 +2,7 @@ import { usePost } from './usePosts';
 import { useParams, useNavigate } from 'react-router-dom'
 import { Card, Container, Button } from 'react-bootstrap'
 
-const PostDetails: React.FC = () => {
+const UserPosts: React.FC = () => {
     const { id } = useParams<{ id: string }>();
     const { data, loading, error } = usePost(id!);
     const navigate = useNavigate();
@@ -14,14 +14,17 @@ const PostDetails: React.FC = () => {
     return (
         <Container>
             <Button onClick={() => navigate('/')}>Go Back</Button>
-            <Card>
+            {data.user.posts.data.map((post: any) => (
+                <Card>
                 <Card.Body>
-                    <Card.Text>User ID: {data.user.id} </Card.Text>
-                    <Card.Title>{data.user.posts.data.title}</Card.Title>
-                </Card.Body>
+                    <Card.Text>User ID: {id} </Card.Text>
+                        <Card.Text key={post.it} ><strong>{post.title}</strong> - {post.body}</Card.Text>
+                        
+                </Card.Body> 
             </Card>
+        ))}
         </Container>
     );
 };
 
-export default PostDetails;
+export default UserPosts;

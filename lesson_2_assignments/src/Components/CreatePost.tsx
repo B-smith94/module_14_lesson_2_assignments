@@ -15,12 +15,16 @@ const CreatePost: React.FC = () => {
         if (inputTitle.current && inputBody.current) {
             createPost({
                 variables: {
-                    title: inputTitle.current.value,
-                    body: inputBody.current.value,
+                    input: {
+                        title: inputTitle.current.value,
+                        body: inputBody.current.value,
+                    }
+  
                 },
             });
             inputTitle.current.value = '';
             inputBody.current.value = '';
+            console.log('Post successfully created!')
             navigate('/');
         }
     };

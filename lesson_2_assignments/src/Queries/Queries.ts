@@ -8,6 +8,7 @@ query {
     data {
       id
       title
+      body
       user {
         id
       }
@@ -16,15 +17,26 @@ query {
 }`
 
 // Task 3
-export const GET_POST = gql`
+export const GET_USER_POSTS = gql`
     query($id: ID!) {
         user(id: $id) {
             posts {
                 data {
                     id
                     title
+                    body
                 }
             }
         }    
     }
+`
+
+export const GET_POST = gql`
+  query($id: ID!) {
+    post(id: $id) {
+      id
+      title
+      body
+    }
+  }
 `
