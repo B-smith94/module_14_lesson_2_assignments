@@ -30,7 +30,7 @@ export const GET_USER_POSTS = gql`
         }    
     }
 `
-
+// Query to render a single post for the UpdatePost component
 export const GET_POST = gql`
   query($id: ID!) {
     post(id: $id) {
