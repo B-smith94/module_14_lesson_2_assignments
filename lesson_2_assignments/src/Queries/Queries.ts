@@ -17,14 +17,11 @@ query {
 
 // Task 3
 export const GET_POST = gql`
-    query {
+    query($id: ID!) {
         user(id: $id) {
             posts {
                 data {
                     id
-                    user {
-                        id
-                    }
                     title
                 }
             }
