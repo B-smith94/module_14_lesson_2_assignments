@@ -1,6 +1,6 @@
 import { useMutation } from "@apollo/client";
 import { DELETE_POST } from "../Queries/Mutations";
-import { usePosts } from "./usePosts";
+import { usePosts } from "../Hooks/usePosts";
 import { ListGroup, Button, Container } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 

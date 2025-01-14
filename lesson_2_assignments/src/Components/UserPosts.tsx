@@ -1,4 +1,4 @@
-import { usePost } from './usePosts';
+import { usePost } from '../Hooks/usePosts';
 import { useParams, useNavigate } from 'react-router-dom'
 import { Card, Container, Button } from 'react-bootstrap'
 
